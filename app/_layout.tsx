@@ -1,9 +1,9 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+
 import { useFonts } from 'expo-font';
-import { SplashScreen, Stack } from 'expo-router';
+import { SplashScreen, Stack, useRouter } from 'expo-router';
 import { useEffect } from 'react';
-import { useColorScheme } from 'react-native';
+import { View, Button } from 'react-native';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -43,14 +43,53 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme();
+  const router = useRouter();
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-      </Stack>
-    </ThemeProvider>
+    <Stack
+      screenOptions={{
+        headerStyle: { backgroundColor: '#10101E' },
+        headerTintColor: '#fff',
+        headerTitleStyle: { fontWeight: 'bold' },
+      }}
+    >
+      <Stack.Screen
+        options={{ headerShown: false, headerTitle: 'Scoring App' }}
+        name="(tabs)"
+      />
+      <Stack.Screen
+        options={{ headerShown: true, headerTitle: 'Login' }}
+        name="index"
+      />
+      <Stack.Screen
+        name="register"
+        options={{
+          headerTitle: 'Create Account',
+          headerRight: () => (
+            <Button
+              title="Open"
+              onPress={() => {
+                router.push('/modal');
+              }}
+            />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="modal"
+        options={{
+          headerTitle: '',
+          presentation: 'modal',
+          headerLeft: () => (
+            <Button
+              title="Close"
+              onPress={() => {
+                router.back();
+              }}
+            />
+          ),
+        }}
+      />
+    </Stack>
   );
 }

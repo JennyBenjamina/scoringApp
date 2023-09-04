@@ -1,4 +1,5 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { Octicons } from '@expo/vector-icons';
 import { Link, Tabs } from 'expo-router';
 import { Pressable, useColorScheme } from 'react-native';
 
@@ -21,12 +22,14 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-      }}>
+      }}
+    >
       <Tabs.Screen
-        name="index"
+        name="home"
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Home',
+          headerShown: false,
+          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
           headerRight: () => (
             <Link href="/modal" asChild>
               <Pressable>
@@ -44,10 +47,21 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="games"
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Games',
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="gamepad" color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="scoring"
+        options={{
+          title: 'Live Scoring',
+          tabBarIcon: ({ color }) => (
+            <Octicons name="number" size={24} color={color} />
+          ),
         }}
       />
     </Tabs>
